@@ -7,8 +7,8 @@ import torchaudio
 import matplotlib.pyplot as plt
 
 batch_size = 16
-epochs = 10
-lr = .01
+epochs = 20
+lr = .00001
 audio_dir = './urban_sounds_small/urban_sounds_small'
 anotation_file = './urban_sounds_small/urban_sounds_small/metadata.csv'
 sample_rate = 44100
@@ -88,3 +88,6 @@ for epoch in range(epochs):
         print(f"Epoch [{epoch+1}/{epochs}], "
               f"Train Loss: {train_loss:.4f}, Train Acc: {train_acc:.4f}, "
               f"Val Loss: {val_loss:.4f}, Val Acc: {val_acc:.4f}")
+
+
+torch.save(audioClassifier.state_dict(), 'AudioClassifier.pth')
