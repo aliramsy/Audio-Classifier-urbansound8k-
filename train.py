@@ -47,6 +47,8 @@ for epoch in range(epochs):
     total = 0
 
     for signals, labels in train_loader:
+        signals = signals.to(device)
+        labels = labels.to(device)
         outputs = audioClassifier(signals)
         loss = loss_fn(outputs, labels)
 
@@ -72,6 +74,8 @@ for epoch in range(epochs):
 
     with torch.no_grad():
         for signals, labels in val_loader:
+            signals = signals.to(device)
+            labels = labels.to(device)
             outputs = audioClassifier(signals)
             loss = loss_fn(outputs, labels)
 
@@ -83,7 +87,7 @@ for epoch in range(epochs):
             total_correct += correct
 
         val_acc = total_correct/total
-        val_loss = train_loss/len(val_loader)
+        val_loss = val_loss/len(val_loader)
 
         print(f"Epoch [{epoch+1}/{epochs}], "
               f"Train Loss: {train_loss:.4f}, Train Acc: {train_acc:.4f}, "
@@ -91,3 +95,8 @@ for epoch in range(epochs):
 
 
 torch.save(audioClassifier.state_dict(), 'AudioClassifier.pth')
+
+# # Re-initialize the model
+# audioClassifier = AudioClassifier(input_channel=1, output_channel=16, num_classes=9)
+# Load the model weights
+# audioClassifier.load_state_dict(torch.load("audio_classifier.pth"))
